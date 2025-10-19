@@ -42,9 +42,9 @@ exports.getAppointmentsByDoctor = async (req, res) => {
 // ✅ Get appointments for a specific patient
 exports.getAppointmentsByPatient = async (req, res) => {
   try {
-    const appointments = await Appointment.find({ patientId: req.userId })
-
-      .populate("doctorId", "name specialization");
+   
+    const appointments = await Appointment.find({ patientId:req.params.patientId})
+    .populate("doctorId", "name specialization");
     res.json(appointments);
   } catch (err) {
     console.error("Error fetching patient appointments:", err);
