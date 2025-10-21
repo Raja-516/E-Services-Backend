@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true },
   role: { type: String, enum: ["patient", "doctor"], default: "patient" },
   specialization: { type: String },
+  organizationId: { type: mongoose.Schema.Types.ObjectId, ref: "Organization" },
 });
 
 userSchema.pre("save", async function(next) {

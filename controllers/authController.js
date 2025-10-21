@@ -39,3 +39,22 @@ exports.getDoctors = async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 };
+
+      
+
+exports.getPatientById = async (req, res) => {
+  try {
+    const patient = await User.findById(req.params.id)
+      .select("name email organizationId")
+      .populate("organizationId", "name"); // Populate org name
+    if (!patient) return res.status(404).json({ error: "Patient not found" });
+
+    res.json({
+      ...patient.toObject(),
+      organizationName: patient.organizationId?.name || "N/A",
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+};
