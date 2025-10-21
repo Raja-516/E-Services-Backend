@@ -70,3 +70,25 @@ exports.updatePrescription = async (req, res) => {
     res.status(500).json({ error: "Server error while updating prescription" });
   }
 };
+
+exports.updateStatus = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+
+    const appointment = await Appointment.findByIdAndUpdate(
+      id,
+      { status },
+      { new: true }
+    )
+      .populate("patientId", "name email") // populate patient details
+      .populate("doctorId", "name specialization"); // populate doctor details if needed
+
+    if (!appointment) return res.status(404).json({ error: "Not found" });
+
+    res.json(appointment); // now includes populated patient/doctor info
+  } catch (err) {
+    console.error("Error updating status:", err);
+    res.status(500).json({ error: "Server error" });
+  }
+};

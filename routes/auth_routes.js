@@ -11,6 +11,7 @@ router.post("/login", login);
 // New route to get patient info
 router.get("/patient/:id", verifyToken, getPatientById);
 
+
 module.exports = router;
 
 // const express = require("express");
