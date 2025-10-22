@@ -39,6 +39,10 @@ exports.loginOrganization = async (req, res) => {
 exports.addDoctor = async (req, res) => {
   const { name, email, password, specialization, timings } = req.body;
   try {
+    const existingDoctor = await User.findOne({ email });
+  if (existingDoctor) {
+    return res.status(400).json({ error: "A doctor with this email already exists" });
+  }
     const doctor = new User({
       name,
       email,
@@ -51,6 +55,7 @@ exports.addDoctor = async (req, res) => {
         timeSlots: timings.map(t => `${t.from}-${t.to}`) 
       },
     });
+   
 
     await doctor.save();
 
