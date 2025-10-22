@@ -6,6 +6,7 @@ require("dotenv").config();
 const authRoutes = require("./routes/auth_routes");
 const appointmentRoutes = require("./routes/appointment_routes");
 
+const organization_routes = require("./routes/organization_routes");
 const app = express();
 
 // ✅ Middleware
@@ -15,6 +16,8 @@ app.use(express.json());
 // ✅ Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/appointments", appointmentRoutes);
+app.use("/api/organization", organization_routes);
+app.use("/api/users",authRoutes);
 
 // ✅ Root route
 app.get("/", (req, res) => {
