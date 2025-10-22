@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const verifyToken = require("../middleware/authMiddleware");
 const { getPatientById } = require("../controllers/authController");
-const { signup, login, getDoctors } = require("../controllers/authController");
+const { signup, login, getDoctors,updateAvailability } = require("../controllers/authController");
 
 // Existing signup/login routes
 router.post("/signup", signup);
@@ -10,6 +10,7 @@ router.post("/login", login);
 
 // New route to get patient info
 router.get("/patient/:id", verifyToken, getPatientById);
+router.put("/:id/availability", verifyToken, updateAvailability);
 
 
 module.exports = router;

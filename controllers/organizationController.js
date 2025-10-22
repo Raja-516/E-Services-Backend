@@ -37,7 +37,7 @@ exports.loginOrganization = async (req, res) => {
 
 // Add doctor under org
 exports.addDoctor = async (req, res) => {
-  const { name, email, password, specialization } = req.body;
+  const { name, email, password, specialization, timings } = req.body;
   try {
     const doctor = new User({
       name,
@@ -45,17 +45,27 @@ exports.addDoctor = async (req, res) => {
       password,
       role: "doctor",
       specialization,
-      organizationId: req.userId
+      organizationId: req.userId,
+      availability: { 
+        days: timings.map(t => t.day), 
+        timeSlots: timings.map(t => `${t.from}-${t.to}`) 
+      },
     });
+
     await doctor.save();
 
-    await Organization.findByIdAndUpdate(req.userId, { $push: { doctors: doctor._id } });
+    await Organization.findByIdAndUpdate(
+      req.userId,
+      { $push: { doctors: doctor._id } }
+    );
 
     res.status(201).json({ message: "Doctor added", doctor });
   } catch (err) {
+    console.error(err);
     res.status(500).json({ error: "Server error" });
   }
 };
+
 
 // Get all doctors of org
 exports.getDoctors = async (req, res) => {

@@ -8,6 +8,18 @@ const userSchema = new mongoose.Schema({
   role: { type: String, enum: ["patient", "doctor"], default: "patient" },
   specialization: { type: String },
   organizationId: { type: mongoose.Schema.Types.ObjectId, ref: "Organization" },
+
+  // ✅ Doctor Availability
+  availability: {
+    days: {
+      type: [String], // e.g. ["Mon", "Wed", "Fri"]
+      default: [],
+    },
+    timeSlots: {
+      type: [String], // e.g. ["09:00-12:00", "14:00-17:00"]
+      default: [],
+    },
+  },
 });
 
 userSchema.pre("save", async function(next) {

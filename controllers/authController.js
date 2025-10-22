@@ -58,3 +58,23 @@ exports.getPatientById = async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 };
+
+// userController.js
+exports.updateAvailability = async (req, res) => {
+  try {
+    const userId = req.userId; // set by verifyToken middleware
+    const { days, timeSlots } = req.body;
+
+    const user = await User.findById(userId);
+    if (!user) return res.status(404).json({ error: "User not found" });
+    if (user.role !== "doctor") return res.status(403).json({ error: "Only doctors can set availability" });
+
+    user.availability = { days, timeSlots };
+    await user.save();
+
+    res.json({ message: "Availability updated successfully", availability: user.availability });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+};
