@@ -1,117 +1,112 @@
-🩺 Hospital Management System — Backend
+🏥 Hospital Management System — Backend
 
-This is the backend of the Hospital Management System built using Node.js, Express.js, and MongoDB (Mongoose).
-It powers the entire application by handling authentication, organization and doctor management, and patient appointment scheduling.
+This repository contains the backend service for the Hospital Management System, built using Node.js, Express.js, and MongoDB (Mongoose).
+It provides secure and scalable REST APIs to manage organizations, doctors, patients, and appointments, along with JWT-based authentication and authorization.
 
-🚀 Key Functionalities : Functionality	Description
-🏢 Organization Management	Organizations can sign up, log in, and manage their doctors.
-👨‍⚕️ Doctor Management	Add, fetch, and manage doctors linked to organizations.
-🧑‍🤝‍🧑 Patient Management	Patients can register, log in, and view available organizations and doctors.
-📅 Appointments System	Patients can book appointments with selected doctors and view their scheduled bookings.
-🔐 Authentication & Authorization	JWT-based secure authentication for all users.
-🧾 API Security	Uses middleware to validate tokens and restrict unauthorized access.
-📊 Scalable Architecture	Clear separation of routes, controllers, and models for easy expansion.
-🧩 Features Summary
+🚀 Key Functionalities
+| Feature                               | Description                                                     |
+| ------------------------------------- | --------------------------------------------------------------- |
+| 🏢 **Organization Management**        | Organizations can sign up, log in, and manage doctors           |
+| 👨‍⚕️ **Doctor Management**           | Add, fetch, and manage doctors under organizations              |
+| 🧑‍🤝‍🧑 **Patient Management**       | Patients can register, log in, and view organizations & doctors |
+| 📅 **Appointment System**             | Patients can book and view appointments with doctors            |
+| 🔐 **Authentication & Authorization** | Secure JWT-based authentication for all users                   |
+| 🧾 **API Security**                   | Middleware protects routes and restricts unauthorized access    |
+| 📊 **Scalable Architecture**          | Clean separation of routes, controllers, and models             |
+
 
 🧠 Overview
--> The backend provides secure REST APIs for:
+The backend exposes secure RESTful APIs for:
+ Patient, Doctor, and Organization authentication
+ Organization creation and doctor assignment
+ Appointment booking and retrieval
+ Role-based access control using JWT
+ Safe communication with frontend applications via protected endpoints
 
--> Patient, Doctor, and Organization authentication
 
--> Managing organizations and assigning doctors
+🦸 Core Features Implemented :
+  ✅ Token-based login for patients, doctors, and organizations
+  ✅ Role-based actions
+    Only organizations can add doctors
+    Only patients can book appointments
+  ✅ Protected routes using authentication middleware
+  ✅ Well-structured MongoDB schemas with Mongoose references
+  ✅ Automatic timestamps (createdAt, updatedAt)
+  ✅ Easily extendable architecture for future features
 
--> Booking and fetching appointments
 
--> Token-based authorization (JWT)
-
--> Communication with the frontend via protected API endpoints
-
-🦸 TASKS :
-✅ Token-based login for patients, doctors, and organizations
-
-✅ Role-based actions (only orgs can add doctors, only patients can book)
-
-✅ Protected routes using middleware
-
-✅ Organized MongoDB models and schemas
-
-✅ Built-in timestamps and relationships using Mongoose refs
-
-✅ Easily extendable (reports, chat, payments can be added later)
-
-🧱 Folder Structure
+🧱 Project Folder Structure
 backend/
 │
 ├── 📂 config/
 │   └── db.js                     # MongoDB connection setup
 │
 ├── 📂 controllers/
-│   ├── authController.js         # Handles signup/login for patients
-│   ├── organizationController.js # Organization actions (create org, add doctor)
-│   ├── appointmentController.js  # Appointment booking and retrieval
-│   └── doctorController.js       # Doctor-related logic
+│   ├── authController.js         # Patient signup/login logic
+│   ├── organizationController.js # Organization & doctor management
+│   ├── doctorController.js       # Doctor-related operations
+│   └── appointmentController.js  # Appointment booking & retrieval
 │
 ├── 📂 middleware/
-│   └── authMiddleware.js         # Verifies JWT tokens for protected routes
+│   └── authMiddleware.js         # JWT verification for protected routes
 │
 ├── 📂 models/
-│   ├── Organization.js           # Schema for organizations (with doctor references)
-│   ├── Doctor.js                 # Schema for doctors
-│   ├── Patient.js                # Schema for patients
-│   └── Appointment.js            # Schema for appointments
+│   ├── Organization.js           # Organization schema (doctor references)
+│   ├── Doctor.js                 # Doctor schema
+│   ├── Patient.js                # Patient schema
+│   └── Appointment.js            # Appointment schema
 │
 ├── 📂 routes/
-│   ├── authRoutes.js             # Routes for patient signup/login
-│   ├── organizationRoutes.js     # Routes for organization & doctor management
-│   ├── appointmentRoutes.js      # Routes for appointment handling
-│   └── doctorRoutes.js           # Routes for doctor-specific endpoints
+│   ├── authRoutes.js             # Patient auth routes
+│   ├── organizationRoutes.js     # Organization & doctor routes
+│   ├── doctorRoutes.js           # Doctor-specific routes
+│   └── appointmentRoutes.js      # Appointment routes
 │
 ├── .env                          # Environment variables
-├── server.js                     # Main entry point — initializes Express app
+├── server.js                     # Express app entry point
 ├── package.json
 └── README.md
 
+
+
  🧠 API Routes Summary
-Method	Endpoint	              Description Auth Required
-POST	 /api/auth/signup   	    Register a new patient	❌
-POST	 /api/auth/login	        Login patient	❌
-POST	 /api/organization/signup	Register new organization	❌
-POST	 /api/organization/login	Login organization	❌
-GET	   /api/organization	      Get all organizations	✅
-GET    /api/organization/:orgId/doctors	Get doctors of specific org	✅
-POST   /api/organization/doctors	Add new doctor to org	✅
-POST	 /api/appointments	      Book appointment	✅
-GET	   /api/appointments	      Get all appointments	✅
+| Method | Endpoint                           | Description                 | Auth Required |
+| ------ | ---------------------------------- | --------------------------- | ------------- |
+| POST   | `/api/auth/signup`                 | Register new patient        | ❌             |
+| POST   | `/api/auth/login`                  | Patient login               | ❌             |
+| POST   | `/api/organization/signup`         | Register organization       | ❌             |
+| POST   | `/api/organization/login`          | Organization login          | ❌             |
+| GET    | `/api/organization`                | Fetch all organizations     | ✅             |
+| GET    | `/api/organization/:orgId/doctors` | Get doctors by organization | ✅             |
+| POST   | `/api/organization/doctors`        | Add doctor to organization  | ✅             |
+| POST   | `/api/appointments`                | Book an appointment         | ✅             |
+| GET    | `/api/appointments`                | Get all appointments        | ✅             |
+
 
 📦 Dependencies
-Package	Use
-express	Routing framework
-mongoose	MongoDB ORM
-jsonwebtoken	Auth token handling
-bcryptjs	Password hashing
-dotenv	Env variables
-cors	Cross-origin access
-nodemon	Hot reloading (dev only)
+| Package      | Purpose                          |
+| ------------ | -------------------------------- |
+| express      | Backend routing framework        |
+| mongoose     | MongoDB ODM                      |
+| jsonwebtoken | JWT authentication               |
+| bcryptjs     | Password hashing                 |
+| dotenv       | Environment variable management  |
+| cors         | Cross-origin resource sharing    |
+| nodemon      | Hot reloading (development only) |
+
 
 
 💡 Future Enhancements
-
-Role-based dashboards (Admin/Doctor/Patient)
-
-Appointment approval/rejection system
-
-Email or SMS notifications
-
-Doctor availability scheduling
-
-Payment gateway integration
-
-Upload medical documents
-
-Chat between doctor & patient
+ Role-based dashboards (Admin / Doctor / Patient)
+ Appointment approval & rejection workflow 
+ Doctor availability scheduling
+ Email / SMS notifications
+ Payment gateway integration
+ Medical document uploads
+ Real-time chat between doctors and patients
+ Reports & analytics
 
 
 ✨ Author
-
 Raja Akula
 Full Stack Developer | Backend Developer | Hospital Management System
