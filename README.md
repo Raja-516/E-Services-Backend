@@ -68,6 +68,7 @@ backend/
 └── README.md
 
 
+
  🧠 API Routes Summary
 | Method | Endpoint                           | Description                 | Auth Required |
 | ------ | ---------------------------------- | --------------------------- | ------------- |
